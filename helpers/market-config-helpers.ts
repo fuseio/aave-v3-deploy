@@ -11,6 +11,7 @@ import {
   ICommonConfiguration,
   SubTokenOutput,
   AssetType,
+  ISupraSValueFeedIndex,
 } from "./types";
 import AaveMarket from "../markets/aave";
 import EthereumV3Config from "../markets/ethereum";
@@ -36,6 +37,7 @@ import {
 import { ZERO_ADDRESS } from "./constants";
 import { getTestnetReserveAddressFromSymbol, POOL_DATA_PROVIDER } from ".";
 import { ENABLE_REWARDS } from "./env";
+import FuseConfig from "../markets/fuse";
 
 declare var hre: HardhatRuntimeEnvironment;
 
@@ -52,6 +54,7 @@ export enum ConfigNames {
   Ethereum = "Ethereum",
   Base = "Base",
   baseGoerli = "base-goerli",
+  Fuse = "Fuse",
 }
 
 export const getParamPerNetwork = <T>(
@@ -119,6 +122,8 @@ export const loadPoolConfig = (configName: ConfigNames): PoolConfiguration => {
       return EthereumV3Config;
     case ConfigNames.Base:
       return BaseConfig;
+    case ConfigNames.Fuse:
+      return FuseConfig;
     default:
       throw new Error(
         `Unsupported pool configuration: ${configName} is not one of the supported configs ${Object.values(
@@ -241,6 +246,26 @@ export const getSymbolsByPrefix = async (prefix: string): Promise<string[]> => {
   }, []);
 };
 
+export const getSupraAssetIndexes = async (
+  poolConfig: IBaseConfiguration,
+  network: eNetwork
+) => {
+  return getParamPerNetwork<ISupraSValueFeedIndex>(
+    poolConfig.SupraAssetIndexes,
+    network
+  );
+};
+
+export const getSupraSValueFeed = async (
+  poolConfig: IBaseConfiguration,
+  network: eNetwork
+) => {
+  return getParamPerNetwork<tEthereumAddress>(
+    poolConfig.SupraSValueFeed,
+    network
+  );
+};
+
 export const getChainlinkOracles = async (
   poolConfig: IBaseConfiguration,
   network: eNetwork
@@ -352,7 +377,7 @@ export const getOracleByAsset = async (
     return (await hre.deployments.get(`${symbol}${TESTNET_PRICE_AGGR_PREFIX}`))
       .address;
   }
-  const oracleAddress = poolConfig.ChainlinkAggregator[network]?.[symbol];
+  const oracleAddress = poolConfig.ChainlinkAggregator?.[network]?.[symbol];
 
   if (!oracleAddress) {
     throw `Missing oracle address for ${symbol}`;

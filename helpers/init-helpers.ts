@@ -3,6 +3,7 @@ import {
   IAaveConfiguration,
   iMultiPoolsAssets,
   IReserveParams,
+  ISupraSValueFeedIndex,
   tEthereumAddress,
 } from "./types";
 import { BigNumberish } from "ethers";
@@ -259,6 +260,28 @@ export const getPairsTokenAggregator = (
   const mappedAggregators = pairs.map(([, source]) => source);
 
   return [mappedPairs, mappedAggregators];
+};
+
+export const getPairsTokenIndexes = (
+  allAssetsAddresses: {
+    [tokenSymbol: string]: tEthereumAddress;
+  },
+  indexes: ISupraSValueFeedIndex
+): [string[], string[]] => {
+  const { ETH, USD, ...assetsAddressesWithoutEth } = allAssetsAddresses;
+
+  const pairs = Object.entries(assetsAddressesWithoutEth).map(
+    ([tokenSymbol, tokenAddress]) => {
+      const index = indexes[tokenSymbol];
+      if (!index) throw `Missing index for ${tokenSymbol}`;
+      return [tokenAddress, index];
+    }
+  ) as [string, string][];
+
+  const mappedPairs = pairs.map(([asset]) => asset);
+  const mappedIndexes = pairs.map(([, source]) => source);
+
+  return [mappedPairs, mappedIndexes];
 };
 
 export const configureReservesByHelper = async (

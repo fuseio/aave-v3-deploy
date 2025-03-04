@@ -14,11 +14,7 @@ import {
   V3_CORE_VERSION,
 } from "../../helpers/constants";
 import { getContract, waitForTx } from "../../helpers/utilities/tx";
-import {
-  AaveOracle,
-  PoolAddressesProvider,
-  PriceOracle__factory,
-} from "../../typechain";
+import { PoolAddressesProvider } from "../../typechain";
 import { POOL_ADDRESSES_PROVIDER_ID } from "../../helpers/deploy-ids";
 import { getAddress } from "@ethersproject/address";
 import {

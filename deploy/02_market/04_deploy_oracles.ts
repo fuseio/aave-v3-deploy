@@ -1,4 +1,8 @@
-import { getChainlinkOracles } from "../../helpers/market-config-helpers";
+import {
+  getChainlinkOracles,
+  getSupraAssetIndexes,
+  getSupraSValueFeed,
+} from "../../helpers/market-config-helpers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { COMMON_DEPLOY_PARAMS } from "../../helpers/env";
@@ -16,7 +20,10 @@ import {
   getReserveAddresses,
 } from "../../helpers/market-config-helpers";
 import { eNetwork, ICommonConfiguration, SymbolMap } from "../../helpers/types";
-import { getPairsTokenAggregator } from "../../helpers/init-helpers";
+import {
+  getPairsTokenAggregator,
+  getPairsTokenIndexes,
+} from "../../helpers/init-helpers";
 import { parseUnits } from "ethers/lib/utils";
 import { MARKET_NAME } from "../../helpers/env";
 
@@ -41,26 +48,32 @@ const func: DeployFunction = async function ({
   const fallbackOracleAddress = ZERO_ADDRESS;
 
   const reserveAssets = await getReserveAddresses(poolConfig, network);
-  const chainlinkAggregators = await getChainlinkOracles(poolConfig, network);
+  const supraSValueFeed = await getSupraSValueFeed(poolConfig, network);
 
-  const [assets, sources] = getPairsTokenAggregator(
+  const supraAssetIndexes = await getSupraAssetIndexes(poolConfig, network);
+
+  const [assets, indexes] = getPairsTokenIndexes(
     reserveAssets,
-    chainlinkAggregators
+    supraAssetIndexes || {}
   );
 
-  // Deploy AaveOracle
+  console.log("assets", assets);
+  console.log("indexes", indexes);
+
+  // Deploy AaveSupraOracle
   await deploy(ORACLE_ID, {
     from: deployer,
     args: [
       addressesProviderAddress,
+      supraSValueFeed,
       assets,
-      sources,
+      indexes,
       fallbackOracleAddress,
       ZERO_ADDRESS,
       parseUnits("1", OracleQuoteUnit),
     ],
     ...COMMON_DEPLOY_PARAMS,
-    contract: "AaveOracle",
+    contract: "AaveSupraOracle",
   });
 
   return true;

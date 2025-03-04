@@ -63,6 +63,7 @@ import { Libraries } from "hardhat-deploy/dist/types";
 import { getContract } from "./utilities/tx";
 import { EMISSION_MANAGER_ID } from ".";
 import { EmissionManager } from "../typechain";
+import { AaveSupraOracle } from "../typechain/@aave/core-v3/contracts/misc";
 
 // Prevent error HH9 when importing this file inside tasks or helpers at Hardhat config load
 declare var hre: HardhatRuntimeEnvironment;
@@ -145,7 +146,7 @@ export const getPool = async (address?: tEthereumAddress): Promise<Pool> =>
 
 export const getPriceOracle = async (
   address?: tEthereumAddress
-): Promise<AaveOracle> => getContract("PriceOracle", address);
+): Promise<AaveSupraOracle> => getContract("PriceOracle", address);
 
 export const getIRStrategy = async (
   address: tEthereumAddress
@@ -174,9 +175,9 @@ export const getAaveProtocolDataProvider = async (
 
 export const getAaveOracle = async (
   address?: tEthereumAddress
-): Promise<AaveOracle> =>
+): Promise<AaveSupraOracle> =>
   getContract(
-    "AaveOracle",
+    "AaveSupraOracle",
     address || (await hre.deployments.get(ORACLE_ID)).address
   );
 

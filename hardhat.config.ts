@@ -15,6 +15,7 @@ import {
   eOptimismNetwork,
   ePolygonNetwork,
   eBaseNetwork,
+  eFuseNetwork,
 } from "./helpers/types";
 import { DEFAULT_NAMED_ACCOUNTS } from "./helpers/constants";
 
@@ -79,6 +80,8 @@ export default {
       ePolygonNetwork.mumbai,
       80001
     ),
+    [eFuseNetwork.main]: getCommonNetworkConfig(eFuseNetwork.main, 122),
+    [eFuseNetwork.testnet]: getCommonNetworkConfig(eFuseNetwork.testnet, 123),
     arbitrum: getCommonNetworkConfig(eArbitrumNetwork.arbitrum, 42161),
     [eArbitrumNetwork.arbitrumTestnet]: getCommonNetworkConfig(
       eArbitrumNetwork.arbitrumTestnet,
@@ -139,6 +142,7 @@ export default {
       "@aave/core-v3/contracts/protocol/configuration/PoolAddressesProviderRegistry.sol",
       "@aave/core-v3/contracts/protocol/configuration/PoolAddressesProvider.sol",
       "@aave/core-v3/contracts/misc/AaveOracle.sol",
+      "@aave/core-v3/contracts/misc/AaveSupraOracle.sol",
       "@aave/core-v3/contracts/protocol/tokenization/AToken.sol",
       "@aave/core-v3/contracts/protocol/tokenization/DelegationAwareAToken.sol",
       "@aave/core-v3/contracts/protocol/tokenization/StableDebtToken.sol",

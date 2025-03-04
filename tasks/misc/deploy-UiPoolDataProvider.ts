@@ -26,7 +26,7 @@ task(
   console.log(`\n- UiPoolDataProviderV3 deployment`);
   const artifact = await deployContract("UiPoolDataProviderV3", [
     chainlinkAggregatorProxy[hre.network.name],
-    chainlinkEthUsdAggregatorProxy[hre.network.name],
+    "88",
   ]);
 
   console.log("UiPoolDataProviderV3:", artifact.address);

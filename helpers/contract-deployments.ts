@@ -9,7 +9,6 @@ import { MintableERC20 } from "../typechain";
 import { deployContract } from "./utilities/tx";
 import { POOL_ADDRESSES_PROVIDER_ID } from "./deploy-ids";
 import {
-  AaveOracle,
   AaveProtocolDataProvider,
   ACLManager,
   AToken,
@@ -58,6 +57,7 @@ import {
   WETH9Mocked,
   WrappedTokenGatewayV3,
 } from "../typechain";
+import { AaveSupraOracle } from "../typechain/@aave/core-v3/contracts/misc";
 
 // Prevent error HH9 when importing this file inside tasks or helpers at Hardhat config load
 declare var hre: HardhatRuntimeEnvironment;
@@ -137,13 +137,14 @@ export const deployMockAggregator = async (price: tStringTokenSmallUnits) =>
 export const deployAaveOracle = async (
   args: [
     tEthereumAddress,
+    tEthereumAddress,
     tEthereumAddress[],
-    tEthereumAddress[],
+    string[],
     tEthereumAddress,
     tEthereumAddress,
     string
   ]
-) => deployContract<AaveOracle>("AaveOracle", args);
+) => deployContract<AaveSupraOracle>("AaveSupraOracle", args);
 
 export const deployMockFlashLoanReceiver = async (
   addressesProvider: tEthereumAddress

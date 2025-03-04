@@ -27,6 +27,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
   const poolConfig = await loadPoolConfig(MARKET_NAME as ConfigNames);
+  console.log(poolConfig);
   const network = (
     process.env.FORK ? process.env.FORK : hre.network.name
   ) as eNetwork;

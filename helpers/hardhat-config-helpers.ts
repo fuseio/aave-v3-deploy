@@ -12,6 +12,7 @@ import {
   eFantomNetwork,
   eOptimismNetwork,
   eBaseNetwork,
+  eFuseNetwork,
 } from "./types";
 
 require("dotenv").config();
@@ -78,6 +79,8 @@ export const NETWORKS_RPC_URL: iParamsPerNetwork<string> = {
   [eEthereumNetwork.ropsten]: `https://eth-ropsten.alchemyapi.io/v2/${getAlchemyKey(
     eEthereumNetwork.ropsten
   )}`,
+  [eFuseNetwork.main]: `https://rpc.fuse.io`,
+  [eFuseNetwork.testnet]: `https://rpc.fusespark.io`,
   [eHarmonyNetwork.main]: `https://a.api.s0.t.hmny.io/`,
   [eHarmonyNetwork.testnet]: `https://api.s0.b.hmny.io`,
   [eAvalancheNetwork.avalanche]: "https://api.avax.network/ext/bc/C/rpc",
@@ -109,6 +112,7 @@ export const LIVE_NETWORKS: iParamsPerNetwork<boolean> = {
   [eFantomNetwork.main]: true,
   [eOptimismNetwork.main]: true,
   [eBaseNetwork.base]: true,
+  [eFuseNetwork.main]: true,
 };
 
 const GAS_PRICE_PER_NET: iParamsPerNetwork<string | number> = {
@@ -167,6 +171,8 @@ const MNEMONICS: iParamsPerNetwork<string> = {
   [eArbitrumNetwork.arbitrumTestnet]: process.env.ARBITRUM_MNEMONIC,
   [ePolygonNetwork.mumbai]: process.env.POLYGON_MUMBAI_MNEMONIC,
   [ePolygonNetwork.polygon]: process.env.POLYGON_MNEMONIC,
+  [eFuseNetwork.main]: process.env.FUSE_MNEMONIC,
+  [eFuseNetwork.testnet]: process.env.FUSE_MNEMONIC,
 };
 
 export const hardhatNetworkSettings = {

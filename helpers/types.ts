@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish, Signer } from "ethers/lib/ethers";
+import { BigNumberish, Signer } from "ethers";
 import { Deployment } from "hardhat-deploy/types";
 
 export interface SymbolMap<T> {
@@ -18,7 +18,8 @@ export type eNetwork =
   | eFantomNetwork
   | eOptimismNetwork
   | eTenderlyNetwork
-  | eBaseNetwork;
+  | eBaseNetwork
+  | eFuseNetwork;
 
 type eTenderlyNetwork = "tenderly";
 
@@ -30,6 +31,11 @@ export enum eFantomNetwork {
 export enum eOptimismNetwork {
   main = "optimism",
   testnet = "optimism-testnet",
+}
+
+export enum eFuseNetwork {
+  main = "fuse",
+  testnet = "fuse-spark",
 }
 
 export enum eEthereumNetwork {
@@ -108,6 +114,7 @@ export enum eContractid {
   Proxy = "Proxy",
   MockAggregator = "MockAggregator",
   AaveOracle = "AaveOracle",
+  AaveSupraOracle = "AaveSupraOracle",
   DefaultReserveInterestRateStrategy = "DefaultReserveInterestRateStrategy",
   LendingPoolCollateralManager = "LendingPoolCollateralManager",
   InitializableAdminUpgradeabilityProxy = "InitializableAdminUpgradeabilityProxy",
@@ -233,9 +240,9 @@ export enum ProtocolErrors {
 
 export type tEthereumAddress = string;
 export type tStringTokenBigUnits = string; // 1 ETH, or 10e6 USDC or 10e18 DAI
-export type tBigNumberTokenBigUnits = BigNumber;
+export type tBigNumberTokenBigUnits = BigNumberish;
 export type tStringTokenSmallUnits = string; // 1 wei, or 1 basic unit of USDC, or 1 basic unit of DAI
-export type tBigNumberTokenSmallUnits = BigNumber;
+export type tBigNumberTokenSmallUnits = BigNumberish;
 
 export interface iAssetCommon<T> {
   [key: string]: T;
@@ -517,7 +524,9 @@ export interface IBaseConfiguration {
   TestnetMarket?: boolean;
   ProviderRegistryOwner?: iParamsPerNetwork<tEthereumAddress | undefined>;
   FallbackOracle?: iParamsPerNetwork<tEthereumAddress>;
-  ChainlinkAggregator: iParamsPerNetwork<ITokenAddress>;
+  ChainlinkAggregator?: iParamsPerNetwork<ITokenAddress>;
+  SupraSValueFeed?: iParamsPerNetwork<tEthereumAddress>;
+  SupraAssetIndexes?: iParamsPerNetwork<ISupraSValueFeedIndex>;
   WrappedTokenGateway?: iParamsPerNetwork<tEthereumAddress>;
   ReserveFactorTreasuryAddress: iParamsPerNetwork<tEthereumAddress>;
   StableDebtTokenImplementation?: iParamsPerNetwork<tEthereumAddress>;
@@ -548,6 +557,10 @@ export interface IAaveConfiguration extends ICommonConfiguration {
 
 export interface ITokenAddress {
   [token: string]: tEthereumAddress;
+}
+
+export interface ISupraSValueFeedIndex {
+  [token: string]: string;
 }
 
 export interface ITokenDecimals {

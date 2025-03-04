@@ -19,12 +19,12 @@ const func: DeployFunction = async function ({
     process.env.FORK ? process.env.FORK : hre.network.name
   ) as eNetwork;
 
-  if (!chainlinkAggregatorProxy[network]) {
-    console.log(
-      '[Deployments] Skipping the deployment of UiPoolDataProvider due missing constant "chainlinkAggregatorProxy" configuration at ./helpers/constants.ts'
-    );
-    return;
-  }
+  // if (!chainlinkAggregatorProxy[network]) {
+  //   console.log(
+  //     '[Deployments] Skipping the deployment of UiPoolDataProvider due missing constant "chainlinkAggregatorProxy" configuration at ./helpers/constants.ts'
+  //   );
+  //   return;
+  // }
   // Deploy UiIncentiveDataProvider getter helper
   await deploy("UiIncentiveDataProviderV3", {
     from: deployer,
@@ -33,10 +33,7 @@ const func: DeployFunction = async function ({
   // Deploy UiPoolDataProvider getter helper
   await deploy("UiPoolDataProviderV3", {
     from: deployer,
-    args: [
-      chainlinkAggregatorProxy[network],
-      chainlinkEthUsdAggregatorProxy[network],
-    ],
+    args: [chainlinkAggregatorProxy[network], "88"],
     ...COMMON_DEPLOY_PARAMS,
   });
 };
