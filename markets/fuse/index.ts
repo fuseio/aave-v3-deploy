@@ -9,7 +9,10 @@ import {
   strategyUSDC,
   strategyWETH,
   strategyCBETH,
-} from "../aave/reservesConfigs";
+  strategyUSDT,
+  strategyWBTC,
+  strategyWFUSE,
+} from "./reservesConfigs";
 
 export const FuseConfig: IAaveConfiguration = {
   ...AaveMarket,
@@ -22,11 +25,16 @@ export const FuseConfig: IAaveConfiguration = {
   ReservesConfig: {
     USDC: strategyUSDC,
     WETH: strategyWETH,
+    WFUSE: strategyWFUSE,
   },
   ReserveAssets: {
     [eFuseNetwork.main]: {
       USDC: "0xc6Bc407706B7140EE8Eef2f86F9504651b63e7f9", // usdbc
       WETH: "0x2F6F07CDcf3588944Bf4C42aC74ff24bF56e7590", // weth
+      WFUSE: "0x0BE9e53fd7EDaC9F859882AfdDa116645287C629"
+      // WBTC: "0x4F85400195a87dFD92bCa1922068609998bccAEe", // wbtc
+      // USDT: "0xB28E5B891C20400277D46fd815Fa57BCFd0813C0", // usdt
+      // MKR: "0x912cbDb01d553a3909a3C273BC55ca852efC298F",
     },
   },
   EModes: {},
@@ -35,10 +43,11 @@ export const FuseConfig: IAaveConfiguration = {
   },
   SupraAssetIndexes: {
     [eFuseNetwork.main]: {
-      USDC: "47",
-      BTC: "0",
-      WETH: "1",
-      CBETH: "2",
+      // USDC: "89",
+      // WBTC: "0",
+      // WETH: "1",
+      // USDT: "48",
+      // MKR: "11",
     },
   },
 };

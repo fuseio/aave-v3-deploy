@@ -27,14 +27,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
   const poolConfig = await loadPoolConfig(MARKET_NAME as ConfigNames);
-  console.log(poolConfig);
   const network = (
     process.env.FORK ? process.env.FORK : hre.network.name
   ) as eNetwork;
 
   // 0. Check beforehand that all reserves have non-zero addresses
   const reserves = await getReserveAddresses(poolConfig, network);
-  console.log(reserves);
   const reservesConfig = poolConfig.ReservesConfig;
 
   const reserveConfigSymbols = Object.keys(reservesConfig);

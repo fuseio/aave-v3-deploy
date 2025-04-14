@@ -211,7 +211,7 @@ export default {
     ? DETERMINISTIC_FACTORIES
     : undefined,
   etherscan: {
-    apiKey: ETHERSCAN_KEY,
+    apiKey: "abc",
     customChains: [
       {
         network: eBaseNetwork.base,
@@ -219,6 +219,14 @@ export default {
         urls: {
           apiURL: "https://api.basescan.org/api",
           browserURL: "https://basescan.org/",
+        },
+      },
+      {
+        network: eFuseNetwork.main,
+        chainId: 122,
+        urls: {
+          apiURL: "https://explorer.fuse.io/api",
+          browserURL: "https://explorer.fuse.io/",
         },
       },
     ],
